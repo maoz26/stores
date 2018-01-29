@@ -32,7 +32,6 @@ export class StoresMapComponent implements OnInit {
   ) {
     this.mapDistanceStore = new Map<number, StoreDto>();
     this.mapStoreToRetailer = new Map<StoreDto, string>();
-
   }
 
   ngOnInit() {
@@ -50,8 +49,8 @@ export class StoresMapComponent implements OnInit {
 
       // load Places Autocomplete
       this.mapsAPILoader.load().then(() => {
-        let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-          types: ["address"]
+        const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+          types: ['address']
         });
         autocomplete.addListener('place_changed', () => {
           this.ngZone.run(() => {
@@ -77,8 +76,14 @@ export class StoresMapComponent implements OnInit {
     }
   }
 
-  private getDistance(store1: CoordinateDto, store2: CoordinateDto): number {
-    return this._haversineService.getDistanceInMiles( store1 , store2);
+  private setCurrentPosition() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.zoom = 12;
+      });
+    }
   }
 
   private calculateDistances() {
@@ -93,22 +98,24 @@ export class StoresMapComponent implements OnInit {
             latitude: this.latitude, longitude: this.longitude}), store);
         });
       });
-
       console.log(this.mapDistanceStore);
     });
   }
 
-  public getData() {
+  private getDistance(store1: CoordinateDto, store2: CoordinateDto): number {
+    return this._haversineService.getDistanceInMiles( store1 , store2);
+  }
+
+  public getStoreDistances() {
     return Array.from( this.mapDistanceStore.keys());
   }
 
-  private setCurrentPosition() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.zoom = 12;
-      });
-    }
+  public getRetailerName(distance: number) {
+    return this.mapStoreToRetailer.get(this.mapDistanceStore.get(distance));
   }
+
+  public getStoreDto(distance: number) {
+    return this.mapDistanceStore.get(distance);
+  }
+
 }

@@ -15,6 +15,13 @@
           "latitude": 32.109333,
           "longitude": 34.855499
         }
+      },
+      {
+        "name": "Ashdod",
+        "coordinates": {
+          "latitude": 32,
+          "longitude": 34
+        }
       }
     ]
   },
@@ -24,15 +31,74 @@
       {
         "name": "Haifa",
         "coordinates": {
-          "latitude": 32.794084,
-          "longitude": 34.989581
+          "latitude": 32.1,
+          "longitude": 34.1
         }
       },
       {
         "name": "TelAviv",
         "coordinates": {
-          "latitude": 32.109353,
-          "longitude": 34.855439
+          "latitude": 32.2,
+          "longitude": 34.2
+        }
+      },
+      {
+        "name": "Ashdod",
+        "coordinates": {
+          "latitude": 32.3,
+          "longitude": 34.3
+        }
+      }
+    ]
+  },
+  {
+    "name": "Shufersal",
+    "branches":[
+      {
+        "name": "Haifa",
+        "coordinates": {
+          "latitude": 32.4,
+          "longitude": 34.4
+        }
+      },
+      {
+        "name": "TelAviv",
+        "coordinates": {
+          "latitude": 32.5,
+          "longitude": 34.5
+        }
+      },
+      {
+        "name": "Ashdod",
+        "coordinates": {
+          "latitude": 32.6,
+          "longitude": 34.6
+        }
+      }
+    ]
+  },
+  {
+    "name": "Yohananof",
+    "branches":[
+      {
+        "name": "Haifa",
+        "coordinates": {
+          "latitude": 32.7,
+          "longitude": 34.7
+        }
+      },
+      {
+        "name": "TelAviv",
+        "coordinates": {
+          "latitude": 32.8,
+          "longitude": 34.8
+        }
+      },
+      {
+        "name": "Ashdod",
+        "coordinates": {
+          "latitude": 32.9,
+          "longitude": 34.9
         }
       }
     ]

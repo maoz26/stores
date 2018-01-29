@@ -9,11 +9,13 @@
 </div>
 
 <div>
-  latitude: {{ latitude }}
-  longitude: {{ longitude }}
+  <p>
+    <b><u>my location:-</u></b>
+    latitude:{{ latitude }} , longitude:{{ longitude }}
+  </p>
   <ul>
-    <li *ngFor="let key of getData()| sortingCompanies:1 ">
-      <app-store [retailer]="mapStoreToRetailer.get(mapDistanceStore.get(key))" [store]="mapDistanceStore.get(key)"></app-store>
+    <li *ngFor="let distance of getStoreDistances()| sortingCompanies:1 ">
+      <app-store [retailerName]="getRetailerName(distance)" [store]="getStoreDto(distance)"></app-store>
     </li>
   </ul>
 </div>
