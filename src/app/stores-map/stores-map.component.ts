@@ -17,8 +17,10 @@ export class StoresMapComponent implements OnInit {
   public longitude: number;
   public searchControl: FormControl;
   public zoom: number;
-  stores = [];
+  retailers = [];
   public mapDistanceStore: Map<number, StoreDto>;
+  public mapStoreToRetailer: Map<StoreDto, String>;
+
   @ViewChild('search')
   public searchElementRef: ElementRef;
 
@@ -29,44 +31,50 @@ export class StoresMapComponent implements OnInit {
     private _haversineService: HaversineService
   ) {
     this.mapDistanceStore = new Map<number, StoreDto>();
+    this.mapStoreToRetailer = new Map<StoreDto, string>();
+
   }
 
   ngOnInit() {
-    // set google maps defaults
-    this.zoom = 4;
-    this.latitude = 39.8282;
-    this.longitude = -98.5795;
+    try {
+      // set google maps defaults
+      this.zoom = 4;
+      this.latitude = 39.8282;
+      this.longitude = -98.5795;
 
-    // create search FormControl
-    this.searchControl = new FormControl();
+      // create search FormControl
+      this.searchControl = new FormControl();
 
-    // set current position
-    this.setCurrentPosition();
+      // set current position
+      this.setCurrentPosition();
 
-    // load Places Autocomplete
-    this.mapsAPILoader.load().then(() => {
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ["address"]
-      });
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          // get the place result
-          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+      // load Places Autocomplete
+      this.mapsAPILoader.load().then(() => {
+        let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+          types: ["address"]
+        });
+        autocomplete.addListener('place_changed', () => {
+          this.ngZone.run(() => {
+            // get the place result
+            const place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-          // verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
+            // verify result
+            if (place.geometry === undefined || place.geometry === null) {
+              return;
+            }
 
-          // set latitude, longitude and zoom
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
-          this.zoom = 12;
+            // set latitude, longitude and zoom
+            this.latitude = place.geometry.location.lat();
+            this.longitude = place.geometry.location.lng();
+            this.zoom = 12;
 
-          this.calculateDistances();
+            this.calculateDistances();
+          });
         });
       });
-    });
+    }catch (exc) {
+      console.log(exc);
+    }
   }
 
   private getDistance(store1: CoordinateDto, store2: CoordinateDto): number {
@@ -76,12 +84,16 @@ export class StoresMapComponent implements OnInit {
   private calculateDistances() {
     // Read json of stores
     this.storeService.getStores().subscribe(res => {
-      this.stores = res.json() as StoreDto[];
       this.mapDistanceStore.clear();
-      this.stores.map(store => {
-        this.mapDistanceStore.set(this.getDistance(store.coordinates, {
-          latitude: this.latitude, longitude: this.longitude}), store);
+      this.retailers = res.json() as RetailerDto[];
+      this.retailers.map(retailer => {
+        retailer.branches.map(store => {
+          this.mapStoreToRetailer.set(store, retailer.name);
+          this.mapDistanceStore.set(this.getDistance(store.coordinates, {
+            latitude: this.latitude, longitude: this.longitude}), store);
+        });
       });
+
       console.log(this.mapDistanceStore);
     });
   }

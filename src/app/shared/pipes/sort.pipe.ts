@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({ name: 'sortingCompanies' })
+@Pipe({ name: 'sortingCompanies' , pure: false })
 export class ValuesPipe implements PipeTransform {
 
   transform(companies: number[], order: number): any[] {

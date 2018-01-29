@@ -13,7 +13,7 @@
   longitude: {{ longitude }}
   <ul>
     <li *ngFor="let key of getData()| sortingCompanies:1 ">
-      <app-store [store]="mapDistanceStore.get(key)"></app-store>
+      <app-store [retailer]="mapStoreToRetailer.get(mapDistanceStore.get(key))" [store]="mapDistanceStore.get(key)"></app-store>
     </li>
   </ul>
 </div>

@@ -1,16 +1,40 @@
 [
   {
-    "name": "Ramilevi",
-    "coordinates": {
-      "latitude": 32.794044,
-      "longitude": 34.989571
-    }
+    "name": "RamiLevi",
+    "branches":[
+      {
+        "name": "Haifa",
+        "coordinates": {
+          "latitude": 32.794044,
+          "longitude": 34.989571
+        }
+      },
+      {
+        "name": "TelAviv",
+        "coordinates": {
+          "latitude": 32.109333,
+          "longitude": 34.855499
+        }
+      }
+    ]
   },
   {
-    "name":"Mega",
-    "coordinates":{
-      "latitude":32.109333,
-      "longitude":34.855499
-    }
+    "name": "Mega",
+    "branches":[
+      {
+        "name": "Haifa",
+        "coordinates": {
+          "latitude": 32.794084,
+          "longitude": 34.989581
+        }
+      },
+      {
+        "name": "TelAviv",
+        "coordinates": {
+          "latitude": 32.109353,
+          "longitude": 34.855439
+        }
+      }
+    ]
   }
 ]
