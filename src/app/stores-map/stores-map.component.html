@@ -1,0 +1,19 @@
+<div class="container">
+  <h1>Enter a Location</h1>
+  <div class="form-group">
+    <input placeholder="search for location" (onchange)="calculateDistances()" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+  </div>
+  <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+    <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+  </agm-map>
+</div>
+
+<div>
+  latitude: {{ latitude }}
+  longitude: {{ longitude }}
+  <ul>
+    <li *ngFor="let key of getData()| sortingCompanies:1 ">
+      <app-store [store]="mapDistanceStore.get(key)"></app-store>
+    </li>
+  </ul>
+</div>

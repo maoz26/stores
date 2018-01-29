@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Ramilevi",
+    "coordinates": {
+      "latitude": 32.794044,
+      "longitude": 34.989571
+    }
+  },
+  {
+    "name":"Mega",
+    "coordinates":{
+      "latitude":32.109333,
+      "longitude":34.855499
+    }
+  }
+]
