@@ -18,8 +18,10 @@ export class StoresMapComponent implements OnInit {
   public searchControl: FormControl;
   public zoom: number;
   retailers = [];
+  best= [];
   public mapDistanceStore: Map<number, StoreDto>;
   public mapStoreToRetailer: Map<StoreDto, String>;
+  public mapBestDistanceRetailer: Map<StoreDto, number>;
 
   @ViewChild('search')
   public searchElementRef: ElementRef;
@@ -32,6 +34,7 @@ export class StoresMapComponent implements OnInit {
   ) {
     this.mapDistanceStore = new Map<number, StoreDto>();
     this.mapStoreToRetailer = new Map<StoreDto, string>();
+    this.mapBestDistanceRetailer = new Map<StoreDto, 0>();
   }
 
   ngOnInit() {
@@ -99,23 +102,57 @@ export class StoresMapComponent implements OnInit {
         });
       });
       console.log(this.mapDistanceStore);
+      this.bestSpreading();
     });
   }
 
+  // calculate distance between 2 coordinates
   private getDistance(store1: CoordinateDto, store2: CoordinateDto): number {
-    return this._haversineService.getDistanceInMiles( store1 , store2);
+    return this._haversineService.getDistanceInKilometers(store1 , store2);
   }
 
+  // get keys from distance-store map
   public getStoreDistances() {
-    return Array.from( this.mapDistanceStore.keys());
+    return Array.from(this.mapDistanceStore.keys());
   }
 
+  // get retailer name from store-retailer map
   public getRetailerName(distance: number) {
     return this.mapStoreToRetailer.get(this.mapDistanceStore.get(distance));
   }
 
+  // get store from  distance-store map
   public getStoreDto(distance: number) {
     return this.mapDistanceStore.get(distance);
+  }
+
+  // find best spreading retailer in 50km
+  public bestSpreading() {
+    let curRetailer;
+    let max;
+    this.best = Array.from(this.mapDistanceStore.keys());
+    // console.log(this.best);
+    for (let i = 0 ; i < this.best.length; i++) {
+      if (this.best[i] < 50) {
+        curRetailer = this.getRetailerName(this.best[i]);
+        this.mapBestDistanceRetailer.set(curRetailer, this.mapBestDistanceRetailer.get(curRetailer) + 1);
+      }
+      console.log(this.mapBestDistanceRetailer);
+      max = Object.keys(this.mapBestDistanceRetailer).reduce(
+        (a, b) => this.mapBestDistanceRetailer[a] > this.mapBestDistanceRetailer[b] ? a : b);
+      console.log(max);
+      const bestReailer = this.getByValue(this.mapBestDistanceRetailer, max);
+      return bestReailer;
+    }
+  }
+
+  // get key by value in map
+  public getByValue(map, searchValue) {
+    for (let [key, value] of map.entries()) {
+      if (value === searchValue) {
+        return key;
+      }
+    }
   }
 
 }

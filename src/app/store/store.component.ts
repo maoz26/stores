@@ -8,6 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class StoreComponent implements OnInit {
   @Input() store: any;
   @Input() retailerName: any;
+  @Input() distanceFromMe: any;
   constructor() { }
 
   ngOnInit() {

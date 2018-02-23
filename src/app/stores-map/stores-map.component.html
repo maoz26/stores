@@ -1,7 +1,9 @@
 <div class="container">
-  <h1>Enter a Location</h1>
+  <h1>My Location</h1>
   <div class="form-group">
-    <input placeholder="search for location" (onchange)="calculateDistances()" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+    <input placeholder="search for location" (onchange)="calculateDistances()" autocorrect="off" autocapitalize="off"
+           spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+    <input type="submit" value="Submit" (click)="calculateDistances()">
   </div>
   <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
     <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
@@ -13,9 +15,12 @@
     <b><u>my location:-</u></b>
     latitude:{{ latitude }} , longitude:{{ longitude }}
   </p>
+  <p>The best Retailer in your area is: {{bestSpreading()}}</p>
   <ul>
     <li *ngFor="let distance of getStoreDistances()| sortingCompanies:1 ">
-      <app-store [retailerName]="getRetailerName(distance)" [store]="getStoreDto(distance)"></app-store>
+      <app-store [retailerName]="getRetailerName(distance)" [store]="getStoreDto(distance)"
+                 [distanceFromMe]="distance">
+      </app-store>
     </li>
   </ul>
 </div>
